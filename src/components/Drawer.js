@@ -1,12 +1,12 @@
 import Info from "./Info";
 import React from "react";
-import AppContext from "../context";
 import axios from "axios";
+import { useCart } from "../hooks/useCart";
 
 const delay=()=>new Promise((resolve)=>setTimeout(resolve,1000));
 
 function Drawer({onClickClose,onRemove,items=[]}){
-    const { cartItems,setCartItems } = React.useContext(AppContext);
+    const {cartItems,setCartItems,totalPrice}=useCart();
     const [isComplete,setIsOrderComplete]=React.useState(false);
     const [isLoading,setIsLoading]=React.useState(false);
 
@@ -53,12 +53,12 @@ function Drawer({onClickClose,onRemove,items=[]}){
               <li>
                 <span>Итого: </span>
                 <div></div>
-                <b>21 398 руб.</b>
+                <b>{totalPrice} руб.</b>
               </li>
               <li>
                 <span>Налог 5%:</span>
                 <div></div>
-                <b>1074 руб.</b>
+                <b>{Math.trunc(totalPrice*0.05)} руб.</b>
               </li>
             </ul>
             <button disabled={isLoading} onClick={onClickOrder} className="greenButton">Оформить заказ <img src="/img/arrow.svg" alt="Arrow" /> </button>
